@@ -6,30 +6,32 @@ Be able to test printCurrentDate function.
       Console.WriteLine(DateTime.Now);
     }
 
-### Example of Mock
+### Example of Spy
 
-	[Fact]
-	public void should_interact_with_the_mock() {
-    	collaborator = Substitute.For<Collaborator>();       
-    	MyClass myClass = new MyClass(collaborator);
+[Test]
+public void should_send_an_email() {
+    var emailSender = Substitute.For<EmailSender>();       
+    var userRegistration = new UserRegistration(emailSender);
 
-    	myClass.Run();
+    UserRegistration.register("an@email.com", "validPassword");
 
-    	collaborator.Received().Collaborate();
-	}
+    emailSender.Received().Send(Arg.Any<object>());
+}
+
 ### Example of Stub    
 
-	[Fact]
-	public void should_retrieve_the_stub_response(){
-    	collaborator = Substitute.For<Collaborator>();
-    	String response = "collaborator response";
-    	calculator.Collaborate().Returns(response);
-    	MyClass myClass = new MyClass(collaborator);
+[Test]
+public void should_success_when_password_is_valid() {
+    var passwordValidator = Substitute.For<PasswordValidator>();
+    passwordValidator.isValid(‘validPassword’).Returns(true);
+    var userRegistration = 
+ 		new UserRegistration(passwordValidator);
 
-    	String result = myClass.Run();
+    bool success = userRegistration.register("an@email.com","validPassword");
 
-    	Assert.Equal(response, result);
-	}
+    Assert.That(success, Is.EqualTo(true)); 
+}
+
 
 # Learnings
 - Dependency injection.
