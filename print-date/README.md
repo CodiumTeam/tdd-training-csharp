@@ -1,39 +1,42 @@
 # Goal
-Be able to test printCurrentDate function.
+Be able to test printCurrentDate function without changing the method signature.
+
+1. Test the code with doubles using a library.
+2. Test the code with doubles created by you.
+
 # Code to test
     public void PrintCurrentDate()
     {
-      Console.WriteLine(DateTime.Now);
+        var line = _calendar.Today().ToString();
+        _printer.PrintLine(line);
     }
 
-### Example of Spy
+### Example of Mock/Spy
 
-[Test]
-public void should_send_an_email() {
-    var emailSender = Substitute.For<EmailSender>();       
-    var userRegistration = new UserRegistration(emailSender);
+	[Fact]
+	public void should_interact_with_the_mock() {
+    	collaborator = Substitute.For<Collaborator>();       
+    	MyClass myClass = new MyClass(collaborator);
 
-    UserRegistration.register("an@email.com", "validPassword");
+    	myClass.Run();
 
-    emailSender.Received().Send(Arg.Any<object>());
-}
-
+    	collaborator.Received().Collaborate();
+	}
 ### Example of Stub    
 
-[Test]
-public void should_success_when_password_is_valid() {
-    var passwordValidator = Substitute.For<PasswordValidator>();
-    passwordValidator.isValid(‘validPassword’).Returns(true);
-    var userRegistration = 
- 		new UserRegistration(passwordValidator);
+	[Fact]
+	public void should_retrieve_the_stub_response(){
+    	collaborator = Substitute.For<Collaborator>();
+    	String response = "collaborator response";
+    	calculator.Collaborate().Returns(response);
+    	MyClass myClass = new MyClass(collaborator);
 
-    bool success = userRegistration.register("an@email.com","validPassword");
+    	String result = myClass.Run();
 
-    Assert.That(success, Is.EqualTo(true)); 
-}
+    	Assert.Equal(response, result);
+	}
 
+## Authors
+Luis Rovirosa [@luisrovirosa](https://www.twitter.com/luisrovirosa)
 
-# Learnings
-- Dependency injection.
-- How to build a Mock and Stub manually.
-- How to use a mocking library.
+Jordi Anguela [@jordianguela](https://www.twitter.com/jordianguela)
