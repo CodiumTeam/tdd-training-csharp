@@ -9,7 +9,6 @@ public class RegisterUserTest
     public void RenameMe()
     {
         new RegisterUser();
-        Substitute.For<RegisterUser>();
 
         Assert.Equal("", "");
     }
